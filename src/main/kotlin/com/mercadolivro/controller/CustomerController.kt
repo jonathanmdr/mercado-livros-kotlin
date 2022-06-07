@@ -4,7 +4,7 @@ import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.service.CustomerService
-import com.mercadolivro.toCustomerModel
+import com.mercadolivro.extension.toCustomerModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -31,7 +31,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: String): ResponseEntity<CustomerModel> {
+    fun getCustomer(@PathVariable id: Int): ResponseEntity<CustomerModel> {
         return ResponseEntity.ok(customerService.getCustomer(id))
     }
 
@@ -42,14 +42,14 @@ class CustomerController(
     }
 
     @PutMapping("/{id}")
-    fun deleteCustomer(@PathVariable id: String, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerModel> {
+    fun deleteCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerModel> {
         val updateCustomer = customer.toCustomerModel(id)
         return ResponseEntity.ok(customerService.updateCustomer(updateCustomer))
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCustomer(@PathVariable id: String) {
+    fun deleteCustomer(@PathVariable id: Int) {
         customerService.deleteCustomer(id)
     }
 
