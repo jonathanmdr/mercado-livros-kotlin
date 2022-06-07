@@ -1,0 +1,9 @@
+CREATE TABLE book (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(16, 2) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    customer_id INT NOT NULL,
+    CONSTRAINT PK_BOOK PRIMARY KEY (id),
+    CONSTRAINT FK_BOOK_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id)
+);
