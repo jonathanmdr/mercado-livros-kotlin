@@ -24,7 +24,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("mysql:mysql-connector-java")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.0.5")
+
+    implementation("org.flywaydb:flyway-core:7.15.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
