@@ -28,6 +28,8 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core:7.15.0")
 
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

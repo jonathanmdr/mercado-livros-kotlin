@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/books")
@@ -44,7 +45,7 @@ class BookController(
     }
 
     @PostMapping
-    fun saveBook(@RequestBody book: PostBookRequest): ResponseEntity<BookResponse> {
+    fun saveBook(@RequestBody @Valid book: PostBookRequest): ResponseEntity<BookResponse> {
         val customer = customerService.getCustomerById(book.customer.id)
         val saveBook = bookService.saveBook(book.toBookModel(customer))
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveBook.id).toUri())
@@ -52,7 +53,7 @@ class BookController(
     }
 
     @PatchMapping("/{id}")
-    fun updateBook(@PathVariable id: Int, @RequestBody book: PutBookRequest): ResponseEntity<BookResponse> {
+    fun updateBook(@PathVariable id: Int, @RequestBody @Valid book: PutBookRequest): ResponseEntity<BookResponse> {
         val previousBook = bookService.getBookById(id)
         val updateBook = book.toBookModel(previousBook)
         return ResponseEntity.ok(bookService.updateBook(updateBook).toResponseModel())

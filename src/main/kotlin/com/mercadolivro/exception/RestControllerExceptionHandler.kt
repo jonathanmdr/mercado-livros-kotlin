@@ -11,6 +11,16 @@ import javax.persistence.EntityNotFoundException
 @RestControllerAdvice
 class RestControllerExceptionHandler {
 
+    @ExceptionHandler(Exception::class)
+    fun handleUncaughtException(exception: Exception, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val error = ErrorResponse(
+            HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "An unexpected internal error occurred"
+        )
+
+        return ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
     @ExceptionHandler(EntityNotFoundException::class)
     fun handleEntityNotFoundException(exception: EntityNotFoundException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
@@ -19,6 +29,16 @@ class RestControllerExceptionHandler {
         )
 
         return ResponseEntity(error, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleIllegalStateException(exception: IllegalStateException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val error = ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            exception.message ?: ""
+        )
+
+        return ResponseEntity(error, HttpStatus.BAD_REQUEST)
     }
 
 }

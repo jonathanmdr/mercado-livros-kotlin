@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/customers")
@@ -39,14 +40,14 @@ class CustomerController(
     }
 
     @PostMapping
-    fun saveCustomer(@RequestBody customer: PostCustomerRequest): ResponseEntity<CustomerResponse> {
+    fun saveCustomer(@RequestBody @Valid customer: PostCustomerRequest): ResponseEntity<CustomerResponse> {
         val saveCustomer = customerService.saveCustomer(customer.toCustomerModel())
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveCustomer.id).toUri())
             .body(saveCustomer.toResponseModel())
     }
 
     @PutMapping("/{id}")
-    fun updateCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerResponse> {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody @Valid customer: PutCustomerRequest): ResponseEntity<CustomerResponse> {
         val previousCustomer = customerService.getCustomerById(id)
         val updateCustomer = customer.toCustomerModel(previousCustomer)
         return ResponseEntity.ok(customerService.updateCustomer(updateCustomer).toResponseModel())
