@@ -1,0 +1,9 @@
+CREATE TABLE purchase (
+    id INT AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    nfe VARCHAR(255),
+    total DECIMAL(16, 2) NOT NULL,
+    created_at DATETIME NOT NULL,
+    CONSTRAINT PK_PURCHASE PRIMARY KEY (id),
+    CONSTRAINT FK_PURCHASE_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id)
+);

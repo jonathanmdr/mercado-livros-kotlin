@@ -1,0 +1,7 @@
+CREATE TABLE purchase_item (
+    purchase_id INT NOT NULL,
+    book_id INT NOT NULL,
+    CONSTRAINT PK_PURCHASE_ITEM PRIMARY KEY (purchase_id, book_id),
+    CONSTRAINT FK_PURCHASE_ITEM_PURCHASE FOREIGN KEY (purchase_id) REFERENCES purchase (id),
+    CONSTRAINT FK_PURCHASE_ITEM_BOOK FOREIGN KEY (book_id) REFERENCES book (id)
+);
