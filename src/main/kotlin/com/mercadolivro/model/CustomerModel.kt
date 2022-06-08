@@ -1,6 +1,9 @@
 package com.mercadolivro.model
 
+import com.mercadolivro.enums.CustomerStatus
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -13,5 +16,8 @@ data class CustomerModel(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
     var name: String,
-    var email: String
+    var email: String,
+
+    @Enumerated(EnumType.STRING)
+    var status: CustomerStatus
 )

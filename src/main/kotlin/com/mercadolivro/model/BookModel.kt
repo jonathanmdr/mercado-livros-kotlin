@@ -21,10 +21,29 @@ data class BookModel(
     var name: String,
     var price: BigDecimal,
 
-    @Enumerated(EnumType.STRING)
-    var status: BookStatus? = null,
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     var customer: CustomerModel? = null
-)
+) {
+
+    constructor(
+        id: Int? = null,
+        name: String,
+        price: BigDecimal,
+        status: BookStatus?,
+        customer: CustomerModel? = null
+    ) : this(id, name, price, customer) {
+        this.status = status
+    }
+
+    @Enumerated(EnumType.STRING)
+    var status: BookStatus? = null
+    set(value) {
+        if (listOf(BookStatus.CANCELED, BookStatus.DELETED).contains(field)) {
+            throw IllegalStateException("Cannot update a book with status equal to $field")
+        }
+
+        field = value
+    }
+
+}
