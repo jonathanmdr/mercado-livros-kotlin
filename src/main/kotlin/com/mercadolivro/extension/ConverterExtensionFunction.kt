@@ -13,8 +13,8 @@ import com.mercadolivro.model.CustomerModel
 
 fun PostCustomerRequest.toCustomerModel(): CustomerModel {
     return CustomerModel(
-        name = this.name,
-        email = this.email,
+        name = this.name!!,
+        email = this.email!!,
         status = CustomerStatus.ACTIVE
     )
 }
@@ -22,8 +22,8 @@ fun PostCustomerRequest.toCustomerModel(): CustomerModel {
 fun PutCustomerRequest.toCustomerModel(customer: CustomerModel): CustomerModel {
     return CustomerModel(
         id = customer.id,
-        name = this.name,
-        email = this.email,
+        name = this.name!!,
+        email = this.email!!,
         status = customer.status
     )
 }
