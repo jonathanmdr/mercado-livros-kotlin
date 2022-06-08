@@ -32,7 +32,7 @@ class CustomerController(
 
     @GetMapping("/{id}")
     fun getCustomer(@PathVariable id: Int): ResponseEntity<CustomerModel> {
-        return ResponseEntity.ok(customerService.getCustomer(id))
+        return ResponseEntity.ok(customerService.getCustomerById(id))
     }
 
     @PostMapping
@@ -42,7 +42,7 @@ class CustomerController(
     }
 
     @PutMapping("/{id}")
-    fun deleteCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerModel> {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerModel> {
         val updateCustomer = customer.toCustomerModel(id)
         return ResponseEntity.ok(customerService.updateCustomer(updateCustomer))
     }
