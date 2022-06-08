@@ -7,6 +7,9 @@ import com.mercadolivro.extension.toBookModel
 import com.mercadolivro.extension.toResponseModel
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -28,8 +31,8 @@ class BookController(
 ) {
 
     @GetMapping
-    fun getAllBooks(): ResponseEntity<List<BookResponse>> {
-        return ResponseEntity.ok(bookService.getAllBooks()
+    fun getAllBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable): ResponseEntity<Page<BookResponse>> {
+        return ResponseEntity.ok(bookService.getAllBooks(pageable)
             .map {
                 it.toResponseModel()
             })
