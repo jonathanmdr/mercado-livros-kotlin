@@ -7,14 +7,14 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 
 data class PostBookRequest(
-    @NotBlank
-    var name: String,
+    @field:NotBlank
+    var name: String?,
 
-    @NotNull
-    @Positive
-    var price: BigDecimal,
+    @field:NotNull
+    @field:Positive
+    var price: BigDecimal?,
 
-    @Valid
-    @NotNull
-    var customer: CustomerIdRequest
+    @field:Valid
+    @field:NotNull
+    var customer: CustomerIdRequest?
 )

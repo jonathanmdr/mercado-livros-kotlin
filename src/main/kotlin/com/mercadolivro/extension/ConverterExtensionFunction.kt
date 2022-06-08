@@ -30,8 +30,8 @@ fun PutCustomerRequest.toCustomerModel(customer: CustomerModel): CustomerModel {
 
 fun PostBookRequest.toBookModel(customer: CustomerModel): BookModel {
     return BookModel(
-        name = this.name,
-        price = this.price,
+        name = this.name!!,
+        price = this.price!!,
         status = BookStatus.ACTIVE,
         customer = customer
     )

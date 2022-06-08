@@ -46,7 +46,7 @@ class BookController(
 
     @PostMapping
     fun saveBook(@RequestBody @Valid book: PostBookRequest): ResponseEntity<BookResponse> {
-        val customer = customerService.getCustomerById(book.customer.id)
+        val customer = customerService.getCustomerById(book.customer!!.id!!)
         val saveBook = bookService.saveBook(book.toBookModel(customer))
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveBook.id).toUri())
             .body(saveBook.toResponseModel())
