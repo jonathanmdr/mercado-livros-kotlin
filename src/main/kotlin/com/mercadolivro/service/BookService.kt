@@ -2,6 +2,7 @@ package com.mercadolivro.service
 
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
+import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.BookRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -44,4 +45,13 @@ class BookService(
         bookRepository.save(book)
     }
 
+    fun deleteByCustomer(customer: CustomerModel) {
+        var books = bookRepository.findByCustomer(customer)
+        books.forEach {
+            if (BookStatus.ACTIVE == it.status) {
+                it.status = BookStatus.DELETED
+            }
+        }
+        bookRepository.saveAll(books)
+    }
 }

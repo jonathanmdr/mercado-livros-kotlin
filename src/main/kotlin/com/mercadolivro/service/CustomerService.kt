@@ -9,7 +9,8 @@ import javax.persistence.EntityNotFoundException
 @Transactional
 @Service
 class CustomerService(
-    val customerRepository: CustomerRepository
+    val customerRepository: CustomerRepository,
+    val bookService: BookService
 ) {
 
     fun getAllCustomers(name: String?): List<CustomerModel> {
@@ -37,9 +38,8 @@ class CustomerService(
     }
 
     fun deleteCustomer(id: Int) {
-        if (!customerRepository.existsById(id)) {
-            throw EntityNotFoundException()
-        }
+        val customer = getCustomerById(id)
+        bookService.deleteByCustomer(customer)
 
         customerRepository.deleteById(id)
     }
