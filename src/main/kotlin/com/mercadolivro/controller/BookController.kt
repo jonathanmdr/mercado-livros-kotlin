@@ -2,8 +2,9 @@ package com.mercadolivro.controller
 
 import com.mercadolivro.controller.request.PostBookRequest
 import com.mercadolivro.controller.request.PutBookRequest
+import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toBookModel
-import com.mercadolivro.model.BookModel
+import com.mercadolivro.extension.toResponseModel
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -27,27 +28,31 @@ class BookController(
 ) {
 
     @GetMapping
-    fun getAllBooks(): ResponseEntity<List<BookModel>> {
-        return ResponseEntity.ok(bookService.getAllBooks())
+    fun getAllBooks(): ResponseEntity<List<BookResponse>> {
+        return ResponseEntity.ok(bookService.getAllBooks()
+            .map {
+                it.toResponseModel()
+            })
     }
 
     @GetMapping("/{id}")
-    fun getBook(@PathVariable id: Int): ResponseEntity<BookModel> {
-        return ResponseEntity.ok(bookService.getBookById(id))
+    fun getBook(@PathVariable id: Int): ResponseEntity<BookResponse> {
+        return ResponseEntity.ok(bookService.getBookById(id).toResponseModel())
     }
 
     @PostMapping
-    fun saveBook(@RequestBody book: PostBookRequest): ResponseEntity<BookModel> {
+    fun saveBook(@RequestBody book: PostBookRequest): ResponseEntity<BookResponse> {
         val customer = customerService.getCustomerById(book.customer.id)
         val saveBook = bookService.saveBook(book.toBookModel(customer))
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveBook.id).toUri()).body(saveBook)
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveBook.id).toUri())
+            .body(saveBook.toResponseModel())
     }
 
     @PatchMapping("/{id}")
-    fun updateBook(@PathVariable id: Int, @RequestBody book: PutBookRequest): ResponseEntity<BookModel> {
+    fun updateBook(@PathVariable id: Int, @RequestBody book: PutBookRequest): ResponseEntity<BookResponse> {
         val previousBook = bookService.getBookById(id)
         val updateBook = book.toBookModel(previousBook)
-        return ResponseEntity.ok(bookService.updateBook(updateBook))
+        return ResponseEntity.ok(bookService.updateBook(updateBook).toResponseModel())
     }
 
     @DeleteMapping("/{id}")

@@ -2,9 +2,10 @@ package com.mercadolivro.controller
 
 import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
-import com.mercadolivro.model.CustomerModel
-import com.mercadolivro.service.CustomerService
+import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.extension.toCustomerModel
+import com.mercadolivro.extension.toResponseModel
+import com.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -26,26 +27,29 @@ class CustomerController(
 ) {
 
     @GetMapping
-    fun getAllCustomers(@RequestParam(required = false) name: String?): ResponseEntity<List<CustomerModel>> {
-        return ResponseEntity.ok(customerService.getAllCustomers(name))
+    fun getAllCustomers(@RequestParam(required = false) name: String?): ResponseEntity<List<CustomerResponse>> {
+        return ResponseEntity.ok(customerService.getAllCustomers(name).map {
+            it.toResponseModel()
+        })
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: Int): ResponseEntity<CustomerModel> {
-        return ResponseEntity.ok(customerService.getCustomerById(id))
+    fun getCustomer(@PathVariable id: Int): ResponseEntity<CustomerResponse> {
+        return ResponseEntity.ok(customerService.getCustomerById(id).toResponseModel())
     }
 
     @PostMapping
-    fun saveCustomer(@RequestBody customer: PostCustomerRequest): ResponseEntity<CustomerModel> {
+    fun saveCustomer(@RequestBody customer: PostCustomerRequest): ResponseEntity<CustomerResponse> {
         val saveCustomer = customerService.saveCustomer(customer.toCustomerModel())
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveCustomer.id).toUri()).body(saveCustomer)
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(saveCustomer.id).toUri())
+            .body(saveCustomer.toResponseModel())
     }
 
     @PutMapping("/{id}")
-    fun updateCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerModel> {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest): ResponseEntity<CustomerResponse> {
         val previousCustomer = customerService.getCustomerById(id)
         val updateCustomer = customer.toCustomerModel(previousCustomer)
-        return ResponseEntity.ok(customerService.updateCustomer(updateCustomer))
+        return ResponseEntity.ok(customerService.updateCustomer(updateCustomer).toResponseModel())
     }
 
     @DeleteMapping("/{id}")
