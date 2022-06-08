@@ -1,7 +1,6 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.enums.BookStatus
-import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.BookRepository
@@ -29,10 +28,6 @@ class BookService(
     }
 
     fun saveBook(book: BookModel): BookModel {
-        if (CustomerStatus.DEACTIVATED == book.customer?.status) {
-            throw IllegalStateException("The informed customer is in ${book.customer?.status} status")
-        }
-
         return bookRepository.save(book)
     }
 

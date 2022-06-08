@@ -1,5 +1,6 @@
 package com.mercadolivro.controller.request
 
+import com.mercadolivro.validation.EmailAvailable
 import javax.validation.constraints.NotBlank
 
 data class PutCustomerRequest(
@@ -7,5 +8,6 @@ data class PutCustomerRequest(
     var name: String?,
 
     @field:NotBlank
+    @EmailAvailable
     var email: String?
 )
