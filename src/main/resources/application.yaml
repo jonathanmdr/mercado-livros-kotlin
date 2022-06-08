@@ -7,3 +7,5 @@ spring:
         url: jdbc:mariadb://localhost:3306/mercado-livros?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&useSSL=false
         username: root
         password: root
+    jackson:
+        default-property-inclusion: NON_NULL

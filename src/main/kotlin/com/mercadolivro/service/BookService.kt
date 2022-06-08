@@ -22,7 +22,9 @@ class BookService(
 
     fun getBookById(id: Int): BookModel {
         return bookRepository.findById(id)
-            .orElseThrow()
+            .orElseThrow {
+                EntityNotFoundException("Book $id not found")
+            }
     }
 
     fun saveBook(book: BookModel): BookModel {
@@ -31,7 +33,7 @@ class BookService(
 
     fun updateBook(book: BookModel): BookModel {
         if (!bookRepository.existsById(book.id!!)) {
-            throw EntityNotFoundException()
+            throw EntityNotFoundException("Book ${book.id} not found")
         }
 
         return bookRepository.save(book)
@@ -56,4 +58,5 @@ class BookService(
         }
         bookRepository.saveAll(books)
     }
+
 }

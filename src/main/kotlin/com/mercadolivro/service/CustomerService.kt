@@ -23,7 +23,9 @@ class CustomerService(
 
     fun getCustomerById(id: Int): CustomerModel {
         return customerRepository.findById(id)
-            .orElseThrow()
+            .orElseThrow {
+                EntityNotFoundException("Customer $id not found")
+            }
     }
 
     fun saveCustomer(customer: CustomerModel): CustomerModel {
@@ -32,7 +34,7 @@ class CustomerService(
 
     fun updateCustomer(customer: CustomerModel): CustomerModel {
         if (!customerRepository.existsById(customer.id!!)) {
-            throw EntityNotFoundException()
+            throw EntityNotFoundException("Customer ${customer.id} not found")
         }
 
         return customerRepository.save(customer)
