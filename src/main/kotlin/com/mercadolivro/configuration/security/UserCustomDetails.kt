@@ -10,7 +10,7 @@ class UserCustomDetails(
     private val customerModel: CustomerModel
 ): UserDetails {
 
-    val id = customerModel.id
+    val id: Int = customerModel.id!!
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return customerModel.roles.map {

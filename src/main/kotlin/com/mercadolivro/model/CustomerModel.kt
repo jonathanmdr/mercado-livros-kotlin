@@ -31,7 +31,7 @@ data class CustomerModel(
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     @CollectionTable(
-        name = "customer_roles",
+        name = "customer_role",
         joinColumns = [JoinColumn(name = "customer_id")]
     )
     @ElementCollection(targetClass = Role::class, fetch = FetchType.EAGER)

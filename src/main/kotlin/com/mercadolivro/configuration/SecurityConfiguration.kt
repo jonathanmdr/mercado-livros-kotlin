@@ -1,15 +1,16 @@
 package com.mercadolivro.configuration
 
 import com.mercadolivro.configuration.security.AuthenticationFilter
+import com.mercadolivro.configuration.security.JtwUtil
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -17,7 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 class SecurityConfiguration(
     private val customerRepository: CustomerRepository,
-    private val userDetailsService: UserDetailsService
+    private val userDetailsService: UserDetailsService,
+    private val jwtUtil: JtwUtil
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -27,7 +29,7 @@ class SecurityConfiguration(
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST,"/customers").permitAll()
             .anyRequest().authenticated()
-        http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository))
+        http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
         http.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
@@ -40,6 +42,11 @@ class SecurityConfiguration(
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean
+    override fun authenticationManager(): AuthenticationManager {
+        return super.authenticationManager()
     }
 
 }

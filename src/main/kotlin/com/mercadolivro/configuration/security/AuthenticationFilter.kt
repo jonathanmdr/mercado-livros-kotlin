@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class AuthenticationFilter(
-    authenticationManager: AuthenticationManager,
-    private val customerRepository: CustomerRepository
+    private val authManager: AuthenticationManager,
+    private val customerRepository: CustomerRepository,
+    private val jwtUtil: JtwUtil
 ) : UsernamePasswordAuthenticationFilter() {
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
@@ -23,7 +24,7 @@ class AuthenticationFilter(
             val authRequest = jacksonObjectMapper().readValue(request.inputStream, AuthRequest::class.java)
             val customerId = customerRepository.findByEmail(authRequest.email)?.id
             val authToken = UsernamePasswordAuthenticationToken(customerId, authRequest.password)
-            return authenticationManager.authenticate(authToken)
+            return authManager.authenticate(authToken)
         } catch (exception: Exception) {
             throw AuthenticationException("Email or password is invalid")
         }
@@ -35,8 +36,9 @@ class AuthenticationFilter(
         chain: FilterChain,
         authResult: Authentication
     ) {
-        val id = (authResult as UserCustomDetails).id
-        response.addHeader(HttpHeaders.AUTHORIZATION, "")
+        val id = (authResult.principal as UserCustomDetails).id
+        val jwtToken = jwtUtil.generateToken(id)
+        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer $jwtToken")
     }
 
 }

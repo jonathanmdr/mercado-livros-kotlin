@@ -17,3 +17,6 @@ spring:
     web:
         resources:
             add-mappings: false
+jwt:
+    secret: cfec2645-c77a-4020-a795-de775a76b772
+    expiration: 86400
