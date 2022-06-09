@@ -1,7 +1,7 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.enums.CustomerStatus
-import com.mercadolivro.enums.Profile
+import com.mercadolivro.enums.Role
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -33,7 +33,7 @@ class CustomerService(
 
     fun saveCustomer(customer: CustomerModel): CustomerModel {
         val customerToSave = customer.copy(
-            roles = setOf(Profile.CUSTOMER),
+            roles = setOf(Role.CUSTOMER),
             password = passwordEncoder.encode(customer.password)
         )
         return customerRepository.save(customerToSave)
