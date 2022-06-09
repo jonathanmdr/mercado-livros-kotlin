@@ -12,5 +12,4 @@ data class PostPurchaseRequest(
     @field:Valid
     @field:NotEmpty
     val books: Set<BookIdRequest>?
-
 )
