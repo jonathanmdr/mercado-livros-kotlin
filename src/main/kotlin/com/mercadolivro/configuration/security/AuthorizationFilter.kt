@@ -20,7 +20,7 @@ class AuthorizationFilter(
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
-            val auth = getAuthentication(jwtToken.split(" ")[2])
+            val auth = getAuthentication(jwtToken.split("Bearer ")[2])
             SecurityContextHolder.getContext().authentication = auth
         }
         chain.doFilter(request, response)

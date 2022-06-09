@@ -48,6 +48,16 @@ class RestControllerExceptionHandler {
         return ResponseEntity(error, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException::class)
+    fun handleAccessDeniedException(exception: org.springframework.security.access.AccessDeniedException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val error = ErrorResponse(
+            HttpStatus.FORBIDDEN.value(),
+            exception.message ?: "Permission is invalid"
+        )
+
+        return ResponseEntity(error, HttpStatus.FORBIDDEN)
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(exception: MethodArgumentNotValidException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(

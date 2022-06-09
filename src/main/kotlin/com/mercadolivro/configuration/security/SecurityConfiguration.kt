@@ -1,8 +1,5 @@
-package com.mercadolivro.configuration
+package com.mercadolivro.configuration.security
 
-import com.mercadolivro.configuration.security.AuthenticationFilter
-import com.mercadolivro.configuration.security.AuthorizationFilter
-import com.mercadolivro.configuration.security.JtwUtil
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,7 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class SecurityConfiguration(
     private val customerRepository: CustomerRepository,
     private val userDetailsService: UserDetailsService,
-    private val jwtUtil: JtwUtil
+    private val jwtUtil: JtwUtil,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
 
     private val swaggerResources: Array<String> = arrayOf(
@@ -50,6 +48,8 @@ class SecurityConfiguration(
                 .addFilter(AuthorizationFilter(authenticationManager(), userDetailsService, jwtUtil))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
             .and()
                 .csrf().disable()
     }
