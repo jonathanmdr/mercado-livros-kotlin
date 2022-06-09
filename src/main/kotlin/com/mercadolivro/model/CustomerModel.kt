@@ -1,12 +1,18 @@
 package com.mercadolivro.model
 
 import com.mercadolivro.enums.CustomerStatus
+import com.mercadolivro.enums.Profile
+import javax.persistence.CollectionTable
+import javax.persistence.Column
+import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.Table
 
 @Entity
@@ -20,5 +26,14 @@ data class CustomerModel(
     var password: String,
 
     @Enumerated(EnumType.STRING)
-    var status: CustomerStatus
+    var status: CustomerStatus,
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(
+        name = "customer_roles",
+        joinColumns = [JoinColumn(name = "customer_id")]
+    )
+    @ElementCollection(targetClass = Profile::class, fetch = FetchType.EAGER)
+    var roles: Set<Profile> = setOf()
 )

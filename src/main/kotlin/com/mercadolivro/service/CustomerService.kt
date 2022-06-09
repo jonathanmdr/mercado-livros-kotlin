@@ -1,8 +1,10 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.enums.CustomerStatus
+import com.mercadolivro.enums.Profile
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityNotFoundException
@@ -10,8 +12,9 @@ import javax.persistence.EntityNotFoundException
 @Transactional
 @Service
 class CustomerService(
-    val customerRepository: CustomerRepository,
-    val bookService: BookService
+    private val customerRepository: CustomerRepository,
+    private val bookService: BookService,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     fun getAllCustomers(name: String?): List<CustomerModel> {
@@ -29,7 +32,11 @@ class CustomerService(
     }
 
     fun saveCustomer(customer: CustomerModel): CustomerModel {
-        return customerRepository.save(customer)
+        val customerToSave = customer.copy(
+            roles = setOf(Profile.CUSTOMER),
+            password = passwordEncoder.encode(customer.password)
+        )
+        return customerRepository.save(customerToSave)
     }
 
     fun updateCustomer(customer: CustomerModel): CustomerModel {
