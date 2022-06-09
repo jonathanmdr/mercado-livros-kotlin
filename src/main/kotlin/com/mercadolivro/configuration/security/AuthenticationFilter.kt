@@ -30,15 +30,11 @@ class AuthenticationFilter(
         }
     }
 
-    override fun successfulAuthentication(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        chain: FilterChain,
-        authResult: Authentication
-    ) {
+    override fun successfulAuthentication(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain, authResult: Authentication) {
         val id = (authResult.principal as UserCustomDetails).id
         val jwtToken = jwtUtil.generateToken(id)
         response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer $jwtToken")
+        jwtUtil.isValidToken(jwtToken)
     }
 
 }
