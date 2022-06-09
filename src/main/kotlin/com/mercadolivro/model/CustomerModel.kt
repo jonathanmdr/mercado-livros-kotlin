@@ -17,6 +17,7 @@ data class CustomerModel(
     var id: Int? = null,
     var name: String,
     var email: String,
+    var password: String,
 
     @Enumerated(EnumType.STRING)
     var status: CustomerStatus

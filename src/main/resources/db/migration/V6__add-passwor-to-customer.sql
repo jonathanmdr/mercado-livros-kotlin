@@ -1,0 +1,1 @@
+ALTER TABLE customer ADD password VARCHAR(255) AFTER email;
