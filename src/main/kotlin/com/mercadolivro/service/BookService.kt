@@ -13,7 +13,7 @@ import javax.persistence.EntityNotFoundException
 @Transactional
 @Service
 class BookService(
-    val bookRepository: BookRepository
+    private val bookRepository: BookRepository
 ) {
 
     fun getAllBooks(pageable: Pageable): Page<BookModel> {
