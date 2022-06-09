@@ -15,7 +15,7 @@ class CorsCustomConfiguration {
     fun corsFilterRegistrationBean(): FilterRegistrationBean<CorsFilter> {
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.allowedOrigins = listOf("*")
+        config.allowedOriginPatterns = listOf("*")
         config.allowedMethods = listOf("*")
         config.allowedHeaders = listOf("*")
 
