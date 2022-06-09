@@ -43,6 +43,14 @@ class BookService(
         return bookRepository.save(book)
     }
 
+    fun purchase(books: List<BookModel>) {
+        books.map {
+            it.status = BookStatus.SOLD
+        }
+
+        bookRepository.saveAll(books)
+    }
+
     fun deleteBook(id: Int) {
         if (!bookRepository.existsById(id)) {
             throw EntityNotFoundException()
