@@ -1,8 +1,7 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.enums.CustomerStatus
-import com.mercadolivro.enums.Role
-import com.mercadolivro.model.CustomerModel
+import com.mercadolivro.helper.buildCustomer
 import com.mercadolivro.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -271,19 +270,5 @@ class CustomerServiceTest {
 
         assertThat(actual).isTrue
     }
-
-    private fun buildCustomer(
-        id: Int? = null,
-        name: String = "John",
-        email: String = "${UUID.randomUUID()}@test.com",
-        password: String = "1234"
-    ) = CustomerModel(
-        id = id,
-        name = name,
-        email = email,
-        status = CustomerStatus.ACTIVE,
-        password = password,
-        roles = setOf(Role.CUSTOMER)
-    )
 
 }
