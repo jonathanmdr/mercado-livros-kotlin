@@ -3,6 +3,7 @@ package com.mercadolivro.repository
 import com.mercadolivro.helper.buildCustomer
 import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -21,6 +22,9 @@ class CustomerRepositoryTest {
 
     @BeforeEach
     fun setup() = customerRepository.deleteAll()
+
+    @AfterEach
+    fun tearDown() = customerRepository.deleteAll()
 
     @Test
     fun `should return customers when name containing a value informed`() {

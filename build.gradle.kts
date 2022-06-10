@@ -38,6 +38,8 @@ dependencies {
     implementation("com.auth0:java-jwt:3.19.2")
 
     testImplementation("io.mockk:mockk:1.12.4")
+    testImplementation("org.springframework.security:spring-security-test:5.7.1")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
