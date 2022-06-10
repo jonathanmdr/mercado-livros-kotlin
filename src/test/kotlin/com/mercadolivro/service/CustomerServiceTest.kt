@@ -15,7 +15,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import java.util.Optional
 import java.util.UUID
 import javax.persistence.EntityNotFoundException
@@ -31,7 +31,7 @@ class CustomerServiceTest {
     private lateinit var bookService: BookService
 
     @MockK
-    private lateinit var passwordEncoder: BCryptPasswordEncoder
+    private lateinit var passwordEncoder: PasswordEncoder
 
     @SpyK
     @InjectMockKs
