@@ -1,0 +1,24 @@
+spring:
+    profiles:
+        active: test
+    jpa:
+        open-in-view: false
+        hibernate:
+            ddl-auto: none
+    datasource:
+        url: jdbc:mariadb://localhost:3306/mercado-livros?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&useSSL=false
+        username: root
+        password: root
+    jackson:
+        default-property-inclusion: NON_NULL
+        deserialization:
+            fail_on_unknown_properties: true
+            fail_on_ignored_properties: true
+    mvc:
+        throw-exception-if-no-handler-found: true
+    web:
+        resources:
+            add-mappings: false
+jwt:
+    secret: cfec2645-c77a-4020-a795-de775a76b772
+    expiration: 86400

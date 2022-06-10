@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+    jacoco
 }
 
 group = "com.mercadolivro"
@@ -26,7 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.0.5")
 
-    implementation("org.flywaydb:flyway-core:7.15.0")
+    implementation("org.flywaydb:flyway-core:8.5.11")
 
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
@@ -36,6 +37,7 @@ dependencies {
 
     implementation("com.auth0:java-jwt:3.19.2")
 
+    testImplementation("io.mockk:mockk:1.12.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
