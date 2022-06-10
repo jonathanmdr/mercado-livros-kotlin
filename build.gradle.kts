@@ -27,7 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.0.5")
 
-    implementation("org.flywaydb:flyway-core:8.5.11")
+    implementation("org.flywaydb:flyway-core:7.15.0")
 
     implementation("org.springframework.boot:spring-boot-starter-validation")
 

@@ -1,12 +1,10 @@
 spring:
-    profiles:
-        active: test
     jpa:
         open-in-view: false
         hibernate:
             ddl-auto: none
     datasource:
-        url: jdbc:mariadb://localhost:3306/mercado-livros?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&useSSL=false
+        url: jdbc:mariadb://localhost:3306/mercado_livros_test?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&useSSL=false
         username: root
         password: root
     jackson:
@@ -20,5 +18,5 @@ spring:
         resources:
             add-mappings: false
 jwt:
-    secret: cfec2645-c77a-4020-a795-de775a76b772
+    secret: 64b500d1-3f85-4a39-b082-d78c0f291f80
     expiration: 86400

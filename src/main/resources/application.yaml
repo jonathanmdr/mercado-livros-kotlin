@@ -4,7 +4,7 @@ spring:
         hibernate:
             ddl-auto: none
     datasource:
-        url: jdbc:mariadb://localhost:3306/mercado-livros?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&useSSL=false
+        url: jdbc:mariadb://localhost:3306/mercado_livros?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&useSSL=false
         username: root
         password: root
     jackson:
